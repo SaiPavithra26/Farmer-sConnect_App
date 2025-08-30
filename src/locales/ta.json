@@ -1,0 +1,81 @@
+{
+  "common": {
+    "loading": "ஏற்றுகிறது...",
+    "error": "பிழை",
+    "success": "வெற்றி",
+    "cancel": "ரத்து செய்",
+    "save": "சேமி",
+    "delete": "நீக்கு",
+    "edit": "திருத்து",
+    "add": "சேர்",
+    "remove": "நீக்கு",
+    "back": "பின்",
+    "next": "அடுத்து",
+    "previous": "முந்தைய",
+    "submit": "சமர்ப்பி",
+    "confirm": "உறுதிப்படுத்து",
+    "yes": "ஆம்",
+    "no": "இல்லை"
+  },
+  "auth": {
+    "login": "உள்நுழை",
+    "register": "பதிவு செய்",
+    "logout": "வெளியேறு",
+    "email": "மின்னஞ்சல்",
+    "password": "கடவுச்சொல்",
+    "confirmPassword": "கடவுச்சொல்லை உறுதிப்படுத்தவும்",
+    "forgotPassword": "கடவுச்சொல் மறந்துவிட்டதா?",
+    "dontHaveAccount": "கணக்கு இல்லையா?",
+    "alreadyHaveAccount": "ஏற்கனவே கணக்கு உள்ளதா?",
+    "signUp": "பதிவு செய்",
+    "signIn": "உள்நுழை"
+  },
+  "farmer": {
+    "dashboard": "பண்ணை டாஷ்போர்டு",
+    "myProducts": "எனது தயாரிப்புகள்",
+    "addProduct": "தயாரிப்பு சேர்",
+    "orders": "ஆர்டர்கள்",
+    "earnings": "வருவாய்",
+    "farmProfile": "பண்ணை சுயவிவரம்"
+  },
+  "customer": {
+    "dashboard": "முகப்பு",
+    "marketplace": "சந்தை",
+    "cart": "வண்டி",
+    "orders": "எனது ஆர்டர்கள்",
+    "profile": "சுயவிவரம்"
+  },
+  "products": {
+    "name": "தயாரிப்பு பெயர்",
+    "description": "விளக்கம்",
+    "price": "விலை",
+    "unit": "அலகு",
+    "stock": "பங்கு",
+    "category": "வகை",
+    "organic": "இயற்கை",
+    "fresh": "புதிய",
+    "local": "உள்ளூர்"
+  },
+  "orders": {
+    "pending": "நிலுவையில்",
+    "confirmed": "உறுதிப்படுத்தப்பட்டது",
+    "shipped": "அனுப்பப்பட்டது",
+    "delivered": "வழங்கப்பட்டது",
+    "cancelled": "ரத்து செய்யப்பட்டது",
+    "total": "மொத்தம்",
+    "quantity": "அளவு"
+  },
+  "chat": {
+    "messages": "செய்திகள்",
+    "typeMessage": "செய்தி தட்டச்சு செய்யுங்கள்...",
+    "send": "அனுப்பு",
+    "online": "ஆன்லைன்",
+    "offline": "ஆஃப்லைன்"
+  },
+  "notifications": {
+    "newOrder": "புதிய ஆர்டர் வந்துள்ளது",
+    "orderUpdate": "ஆர்டர் நிலை புதுப்பிக்கப்பட்டது",
+    "newMessage": "புதிய செய்தி",
+    "paymentReceived": "பணம் பெறப்பட்டது"
+  }
+}

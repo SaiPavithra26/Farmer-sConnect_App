@@ -1,0 +1,81 @@
+{
+  "common": {
+    "loading": "लोड हो रहा है...",
+    "error": "त्रुटि",
+    "success": "सफलता",
+    "cancel": "रद्द करें",
+    "save": "सेव करें",
+    "delete": "हटाएं",
+    "edit": "संपादित करें",
+    "add": "जोड़ें",
+    "remove": "हटाएं",
+    "back": "वापस",
+    "next": "अगला",
+    "previous": "पिछला",
+    "submit": "सबमिट करें",
+    "confirm": "पुष्टि करें",
+    "yes": "हाँ",
+    "no": "नहीं"
+  },
+  "auth": {
+    "login": "लॉगिन",
+    "register": "रजिस्टर",
+    "logout": "लॉगआउट",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "forgotPassword": "पासवर्ड भूल गए?",
+    "dontHaveAccount": "खाता नहीं है?",
+    "alreadyHaveAccount": "पहले से खाता है?",
+    "signUp": "साइन अप",
+    "signIn": "साइन इन"
+  },
+  "farmer": {
+    "dashboard": "फार्म डैशबोर्ड",
+    "myProducts": "मेरे उत्पाद",
+    "addProduct": "उत्पाद जोड़ें",
+    "orders": "ऑर्डर",
+    "earnings": "कमाई",
+    "farmProfile": "फार्म प्रोफाइल"
+  },
+  "customer": {
+    "dashboard": "होम",
+    "marketplace": "मार्केटप्लेस",
+    "cart": "कार्ट",
+    "orders": "मेरे ऑर्डर",
+    "profile": "प्रोफाइल"
+  },
+  "products": {
+    "name": "उत्पाद का नाम",
+    "description": "विवरण",
+    "price": "मूल्य",
+    "unit": "यूनिट",
+    "stock": "स्टॉक",
+    "category": "श्रेणी",
+    "organic": "जैविक",
+    "fresh": "ताज़ा",
+    "local": "स्थानीय"
+  },
+  "orders": {
+    "pending": "लंबित",
+    "confirmed": "पुष्ट",
+    "shipped": "भेज दिया",
+    "delivered": "डिलीवर",
+    "cancelled": "रद्द",
+    "total": "कुल",
+    "quantity": "मात्रा"
+  },
+  "chat": {
+    "messages": "संदेश",
+    "typeMessage": "संदेश टाइप करें...",
+    "send": "भेजें",
+    "online": "ऑनलाइन",
+    "offline": "ऑफलाइन"
+  },
+  "notifications": {
+    "newOrder": "नया ऑर्डर मिला",
+    "orderUpdate": "ऑर्डर स्थिति अपडेट",
+    "newMessage": "नया संदेश",
+    "paymentReceived": "भुगतान प्राप्त"
+  }
+}
