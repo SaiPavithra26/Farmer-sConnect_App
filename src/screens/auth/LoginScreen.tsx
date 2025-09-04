@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  Platform,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -20,12 +19,6 @@ import Button from '@/src/components/common/Button/Button';
 import Input from '@/src/components/common/Input/Input';
 import { RootStackParamList, MainTabParamList } from '@/src/types/navigation';
 import { Sprout, Mail, Lock } from 'lucide-react-native';
-import {
-  AuthStackParamList,
-  AppStackParamList,
-  FarmerStackParamList,
-  CustomerStackParamList,
-} from '@/src/navigation/navigationTypes';
 import { AuthAPI } from '@/src/services/api/authAPI';
 import { useResponsive } from '@/src/hooks/useResponsive';
 
@@ -39,77 +32,78 @@ export default function LoginScreen() {
   const dispatch = useDispatch();
   const { isSmallScreen, isTallScreen } = useResponsive();
 
-  const getStyles = () => StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    scrollContent: {
-      flexGrow: 1,
-      paddingHorizontal: isSmallScreen ? spacing.md : spacing.lg,
-      paddingTop: isTallScreen ? 100 : 80,
-      paddingBottom: isSmallScreen ? spacing.md : spacing.lg,
-    },
-    header: {
-      alignItems: 'center',
-      marginBottom: isSmallScreen ? spacing.xl : spacing.xxxl,
-    },
-    iconContainer: {
-      backgroundColor: colors.white,
-      borderRadius: 20,
-      padding: isSmallScreen ? spacing.sm : spacing.md,
-      marginBottom: spacing.md,
-      shadowColor: colors.primary[900],
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.1,
-      shadowRadius: 8,
-      elevation: 4,
-    },
-    title: {
-      fontFamily: fonts.heading.semiBold,
-      fontSize: isSmallScreen ? fonts.sizes.xxl : fonts.sizes.xxxl,
-      color: colors.primary[800],
-      marginBottom: spacing.sm,
-      textAlign: 'center',
-    },
-    subtitle: {
-      fontFamily: fonts.primary.regular,
-      fontSize: isSmallScreen ? fonts.sizes.sm : fonts.sizes.md,
-      color: colors.gray[600],
-      textAlign: 'center',
-      lineHeight: isSmallScreen ? 20 : 22,
-      paddingHorizontal: isSmallScreen ? spacing.sm : 0,
-    },
-    form: {
-      flex: 1,
-      justifyContent: 'center',
-    },
-    forgotPassword: {
-      alignSelf: 'flex-end',
-      marginBottom: isSmallScreen ? spacing.md : spacing.lg,
-    },
-    forgotPasswordText: {
-      fontFamily: fonts.primary.medium,
-      fontSize: isSmallScreen ? fonts.sizes.xs : fonts.sizes.sm,
-      color: colors.primary[600],
-    },
-    loginButton: {
-      marginBottom: isSmallScreen ? spacing.md : spacing.lg,
-    },
-    footer: {
-      alignItems: 'center',
-      paddingBottom: isSmallScreen ? spacing.md : spacing.xl,
-    },
-    footerText: {
-      fontFamily: fonts.primary.regular,
-      fontSize: isSmallScreen ? fonts.sizes.xs : fonts.sizes.sm,
-      color: colors.gray[600],
-      textAlign: 'center',
-    },
-    footerLink: {
-      fontFamily: fonts.primary.medium,
-      color: colors.primary[600],
-    },
-  });
+  const getStyles = () =>
+    StyleSheet.create({
+      container: {
+        flex: 1,
+      },
+      scrollContent: {
+        flexGrow: 1,
+        paddingHorizontal: isSmallScreen ? spacing.md : spacing.lg,
+        paddingTop: isTallScreen ? 100 : 80,
+        paddingBottom: isSmallScreen ? spacing.md : spacing.lg,
+      },
+      header: {
+        alignItems: 'center',
+        marginBottom: isSmallScreen ? spacing.xl : spacing.xxxl,
+      },
+      iconContainer: {
+        backgroundColor: colors.white,
+        borderRadius: 20,
+        padding: isSmallScreen ? spacing.sm : spacing.md,
+        marginBottom: spacing.md,
+        shadowColor: colors.primary[900],
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+        elevation: 4,
+      },
+      title: {
+        fontFamily: fonts.heading.semiBold,
+        fontSize: isSmallScreen ? fonts.sizes.xxl : fonts.sizes.xxxl,
+        color: colors.primary[800],
+        marginBottom: spacing.sm,
+        textAlign: 'center',
+      },
+      subtitle: {
+        fontFamily: fonts.primary.regular,
+        fontSize: isSmallScreen ? fonts.sizes.sm : fonts.sizes.md,
+        color: colors.gray[600],
+        textAlign: 'center',
+        lineHeight: isSmallScreen ? 20 : 22,
+        paddingHorizontal: isSmallScreen ? spacing.sm : 0,
+      },
+      form: {
+        flex: 1,
+        justifyContent: 'center',
+      },
+      forgotPassword: {
+        alignSelf: 'flex-end',
+        marginBottom: isSmallScreen ? spacing.md : spacing.lg,
+      },
+      forgotPasswordText: {
+        fontFamily: fonts.primary.medium,
+        fontSize: isSmallScreen ? fonts.sizes.xs : fonts.sizes.sm,
+        color: colors.primary[600],
+      },
+      loginButton: {
+        marginBottom: isSmallScreen ? spacing.md : spacing.lg,
+      },
+      footer: {
+        alignItems: 'center',
+        paddingBottom: isSmallScreen ? spacing.md : spacing.xl,
+      },
+      footerText: {
+        fontFamily: fonts.primary.regular,
+        fontSize: isSmallScreen ? fonts.sizes.xs : fonts.sizes.sm,
+        color: colors.gray[600],
+        textAlign: 'center',
+      },
+      footerLink: {
+        fontFamily: fonts.primary.medium,
+        color: colors.primary[600],
+      },
+    });
 
   const styles = getStyles();
 
@@ -134,6 +128,7 @@ export default function LoginScreen() {
 
     setLoading(true);
 
+    // ✅ FIXED: pass only { email, password }
     const response = await AuthAPI.login({ email, password });
 
     if (response.success && response.data) {
@@ -144,7 +139,10 @@ export default function LoginScreen() {
 
       const initialTab = getInitialTabForRole(user.role);
 
-      navigation.replace('Main', { screen: 'Home', params: { screen: 'Dashboard' } });
+      navigation.replace('Main', {
+        screen: 'Home',
+        params: { screen: 'Dashboard' },
+      });
     } else {
       setLoading(false);
       Alert.alert('Login Failed', response.message || 'Invalid credentials');
@@ -189,7 +187,9 @@ export default function LoginScreen() {
 
           <TouchableOpacity
             style={styles.forgotPassword}
-            onPress={() => navigation.navigate('Auth', { screen: 'ForgotPassword' })}
+            onPress={() =>
+              navigation.navigate('Auth', { screen: 'ForgotPassword' })
+            }
           >
             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           </TouchableOpacity>
@@ -204,8 +204,12 @@ export default function LoginScreen() {
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>
-            Don't have an account?{' '}
-            <TouchableOpacity onPress={() => navigation.navigate('Auth', { screen: 'Register' })}>
+            Don&apos;t have an account?{' '}
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('Auth', { screen: 'Register' })
+              }
+            >
               <Text style={styles.footerLink}>Sign Up</Text>
             </TouchableOpacity>
           </Text>
