@@ -26,18 +26,13 @@ const orderRoutes = require("./src/routes/orderRoutes");
 
 
 
-
-
 app.use('/api/auth', authRoutes);
 app.use('/api/farmer-profiles', require('./src/routes/farmerProfileRoutes.js'));
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 
 const cors = require("cors");
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true
-}));
+app.use(cors({ origin: "*", credentials: true }));
 
 
 app.listen(5000, () => {
