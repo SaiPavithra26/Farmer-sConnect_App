@@ -4,7 +4,7 @@ const User = require("../models/User"); // ensure this file exists
 // Middleware factory
 exports.protect = (roles = []) => {
   // Always normalize roles into an array
-  //
+  //  
 
   return async (req, res, next) => {
     try {
