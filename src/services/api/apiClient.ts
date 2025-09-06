@@ -1,7 +1,8 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getApiConfig } from './config';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const { baseURL, timeout } = getApiConfig();
+// ✅ Direct config here or import from config.ts
+const baseURL = "http://192.168.1.5:5000/api"; // change X.X to your LAN IP
+const defaultTimeout = 15000; // 15s timeout
 
 interface ApiResponse<T = any> {
   success: boolean;
@@ -12,114 +13,103 @@ interface ApiResponse<T = any> {
 
 class ApiClient {
   private baseURL: string;
-  private token: string | null = null;
 
   constructor(baseURL: string) {
-    this.baseURL = baseURL;
-    this.loadToken();
-  }
-
-  private async loadToken() {
-    try {
-      this.token = await AsyncStorage.getItem('auth_token');
-    } catch (error) {
-      // Silently handle token loading errors
-    }
+    this.baseURL = baseURL.endsWith("/") ? baseURL.slice(0, -1) : baseURL;
   }
 
   private async getHeaders(): Promise<HeadersInit> {
     const headers: HeadersInit = {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     };
 
-    if (this.token) {
-      headers['Authorization'] = `Bearer ${this.token}`;
-    }
+    const token = await AsyncStorage.getItem("auth_token");
+    if (token) headers["Authorization"] = `Bearer ${token}`;
 
     return headers;
   }
 
   async setToken(token: string) {
-    this.token = token;
-    try {
-      await AsyncStorage.setItem('auth_token', token);
-    } catch (error) {
-      // Silently handle token saving errors
-    }
+    await AsyncStorage.setItem("auth_token", token);
   }
 
   async clearToken() {
-    this.token = null;
-    try {
-      await AsyncStorage.removeItem('auth_token');
-    } catch (error) {
-      // Silently handle token removal errors
-    }
+    await AsyncStorage.removeItem("auth_token");
   }
 
   async request<T = any>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
+    timeout = defaultTimeout
   ): Promise<ApiResponse<T>> {
     try {
-      const url = `${this.baseURL}${endpoint}`;
+      const url = `${this.baseURL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
       const headers = await this.getHeaders();
 
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout ?? 15000);
+
       const response = await fetch(url, {
-        headers,
         ...options,
+        headers,
+        signal: controller.signal,
       });
 
-      // Handle different response status codes
+      clearTimeout(id);
+
+      let responseData: any = {};
+      try {
+        responseData = await response.json();
+      } catch {
+        responseData = {};
+      }
+
       if (response.status === 401) {
-        // Token expired or invalid
         await this.clearToken();
         return {
           success: false,
-          error: 'Authentication failed. Please login again.',
-          message: 'Token expired'
+          message: responseData?.message || "Unauthorized. Please login again.",
         };
       }
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+        return {
+          success: false,
+          message: responseData?.message || `HTTP ${response.status}`,
+        };
       }
 
-      const data = await response.json();
-      return { success: true, data };
-    } catch (error) {
-      console.error('API Request Error:', error);
+      return { success: true, data: responseData };
+    } catch (error: any) {
+      console.error("API Error:", error);
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Network error occurred',
-        message: 'Please check your internet connection and try again'
+        message: error?.message || "Network error. Please check connection.",
       };
     }
   }
 
-  async get<T = any>(endpoint: string): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, { method: 'GET' });
+  get<T = any>(endpoint: string) {
+    return this.request<T>(endpoint, { method: "GET" });
   }
 
-  async post<T = any>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
+  post<T = any>(endpoint: string, data?: any) {
     return this.request<T>(endpoint, {
-      method: 'POST',
+      method: "POST",
       body: data ? JSON.stringify(data) : undefined,
     });
   }
 
-  async put<T = any>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
+  put<T = any>(endpoint: string, data?: any) {
     return this.request<T>(endpoint, {
-      method: 'PUT',
+      method: "PUT",
       body: data ? JSON.stringify(data) : undefined,
     });
   }
 
-  async delete<T = any>(endpoint: string): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, { method: 'DELETE' });
+  delete<T = any>(endpoint: string) {
+    return this.request<T>(endpoint, { method: "DELETE" });
   }
 }
 
 export const apiClient = new ApiClient(baseURL);
-export default ApiClient;
