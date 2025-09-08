@@ -109,8 +109,7 @@ export const debounce = <T extends (...args: any[]) => void>(
   func: T,
   wait: number
 ): T => {
-  let timeout: number;
-  
+  let timeout: ReturnType<typeof setTimeout>;
   return ((...args: any[]) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), wait);

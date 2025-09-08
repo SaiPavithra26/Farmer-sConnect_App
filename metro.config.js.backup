@@ -1,0 +1,28 @@
+const { getDefaultConfig } = require('expo/metro-config');
+const path = require('path');
+
+const config = getDefaultConfig(__dirname);
+
+// Exclude backend files from Metro bundling
+config.resolver.blockList = [
+  /server\.js$/,
+  /config\/.*/,
+  /src\/controllers\/.*/,
+  /src\/models\/.*/,
+  /src\/routes\/.*/,
+  /src\/middleware\/.*/,
+  /src\/sockets\/.*/,
+  /node_modules\/express\/.*/,
+  /node_modules\/mongoose\/.*/,
+  /node_modules\/mongodb\/.*/,
+  /node_modules\/cors\/.*/,
+  /node_modules\/helmet\/.*/,
+  /node_modules\/bcrypt\/.*/,
+  /node_modules\/jsonwebtoken\/.*/,
+  /node_modules\/multer\/.*/,
+  /node_modules\/morgan\/.*/,
+  /node_modules\/swagger-.*/,
+];
+
+
+module.exports = config;

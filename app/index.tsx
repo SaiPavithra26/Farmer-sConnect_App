@@ -21,7 +21,8 @@ export default function WelcomeScreen() {
     <LinearGradient colors={[colors.primary[50], colors.primary[100]]} style={styles.container}>
       <View style={styles.header}>
         <View style={styles.iconContainer}>
-          <Sprout size={48} color={colors.primary[600]} />
+          <Sprout size={48} stroke={colors.primary[600]} />
+
         </View>
         <Text style={styles.title}>FarmersConnect</Text>
         <Text style={styles.subtitle}>
