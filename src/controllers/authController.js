@@ -34,6 +34,7 @@ exports.register = async (req, res) => {
 };
 exports.login = async (req, res) => {
   try {
+    console.log("📩 Login request body:", req.body); // <-- Debug log
     const { email, phone, password } = req.body;
 
     let query = {};
@@ -51,6 +52,7 @@ exports.login = async (req, res) => {
       user: { id: user._id, name: user.name, role: user.role }
     });
   } catch (e) {
+    console.error("❌ Login error:", e);
     res.status(500).json({ message: e.message });
   }
 };

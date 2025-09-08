@@ -1,86 +1,86 @@
 // API Configuration for different environments
 export const API_CONFIG = {
   development: {
-    baseURL: 'http://localhost:5000/api',
+    baseURL: "http://localhost:5000/api",
     timeout: 10000,
   },
   staging: {
-    baseURL: 'https://api-staging.farmersconnect.com/api',
+    baseURL: "https://api-staging.farmersconnect.com/api",
     timeout: 15000,
   },
   production: {
-    baseURL: 'https://api.farmersconnect.com/api',
+    baseURL: "https://api.farmersconnect.com/api",
     timeout: 20000,
   },
 };
 
 // Get current environment
 export const getCurrentEnvironment = (): keyof typeof API_CONFIG => {
-  // You can use react-native-config or other environment detection
-  // For now, we'll use __DEV__ flag
-  return __DEV__ ? 'development' : 'production';
+  return __DEV__ ? "development" : "production";
 };
 
 // Get current API config
-export const getApiConfig = () => {
-  const env = getCurrentEnvironment();
-  return API_CONFIG[env];
-};
+// config.ts
+export const getApiConfig = () => ({
+  baseURL: "http://192.168.1.5:5000/api", // replace with your actual IP
+  timeout: 15000,
+});
+
 
 // Backend API Endpoints
 export const ENDPOINTS = {
-  // Authentication
+  // 🔑 Authentication
   AUTH: {
-    LOGIN: '/auth/login',
-    REGISTER: '/auth/register',
-    LOGOUT: '/auth/logout',
-    ME: '/auth/me',
-    FORGOT_PASSWORD: '/auth/forgot-password',
-    RESET_PASSWORD: '/auth/reset-password',
-    VERIFY_OTP: '/auth/verify-otp',
-    REFRESH_TOKEN: '/auth/refresh-token',
+    LOGIN: "/auth/login",               
+    REGISTER: "/auth/register",         
+    LOGOUT: "/auth/logout",             
+    ME: "/auth/me",                     
+    FORGOT_PASSWORD: "/auth/forgot-password",
+    RESET_PASSWORD: "/auth/reset-password",  
+    VERIFY_OTP: "/auth/verify-otp",          
+    REFRESH_TOKEN: "/auth/refresh-token",    
   },
 
-  // Users
+  // 👤 Users
   USERS: {
-    PROFILE: '/users/profile',
-    UPDATE_PROFILE: '/users/profile',
-    CHANGE_PASSWORD: '/users/change-password',
+    PROFILE: "/users/profile",               
+    UPDATE_PROFILE: "/users/profile",        
+    CHANGE_PASSWORD: "/users/change-password", 
   },
 
-  // Orders
-  ORDERS: {
-    LIST: '/orders',
-    CREATE: '/orders',
-    DETAILS: (id: string) => `/orders/${id}`,
-    UPDATE: (id: string) => `/orders/${id}`,
-    CANCEL: (id: string) => `/orders/${id}/cancel`,
-  },
-
-  // Products
+  // 📦 Products
   PRODUCTS: {
-    LIST: '/products',
-    CREATE: '/products',
-    DETAILS: (id: string) => `/products/${id}`,
-    UPDATE: (id: string) => `/products/${id}`,
-    DELETE: (id: string) => `/products/${id}`,
+    LIST: "/products",                    // GET
+    CREATE: "/products",                  // POST
+    DETAILS: (id: string) => `/products/${id}`, // GET
+    UPDATE: (id: string) => `/products/${id}`, // PUT
+    DELETE: (id: string) => `/products/${id}`, // DELETE
   },
 
-  // Categories
+  // 📑 Orders
+  ORDERS: {
+    LIST: "/orders",                        // GET
+    CREATE: "/orders",                      // POST
+    DETAILS: (id: string) => `/orders/${id}`, // GET
+    UPDATE: (id: string) => `/orders/${id}`, // PUT
+    CANCEL: (id: string) => `/orders/${id}/cancel`, // PUT
+  },
+
+  // 🏷️ Categories
   CATEGORIES: {
-    LIST: '/categories',
+    LIST: "/categories",
   },
 
-  // Farmers
+  // 👨‍🌾 Farmers
   FARMERS: {
-    PROFILE: '/farmers/profile',
-    PRODUCTS: '/farmers/products',
-    ORDERS: '/farmers/orders',
+    PROFILE: "/farmers/profile",
+    PRODUCTS: "/farmers/products",
+    ORDERS: "/farmers/orders",
   },
 
-  // Customers
+  // 🛒 Customers
   CUSTOMERS: {
-    ORDERS: '/customers/orders',
-    FAVORITES: '/customers/favorites',
+    ORDERS: "/customers/orders",
+    FAVORITES: "/customers/favorites",
   },
 };

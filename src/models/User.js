@@ -1,20 +1,47 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema({
-  role: { type: String, enum: ['farmer', 'buyer', 'admin'], required: true },
-  name: { type: String, required: true },
-  phone: { type: String, index: true },
-  email: { type: String, lowercase: true, index: true , unique : true , required: true},
-  password: { type: String, required: true, select: false }, // hashed
-  deviceToken: { type: String }, // for FCM
+  role: {
+    type: String,
+    enum: ["farmer", "customer"],  // enforce only these roles
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true,
+  },
+  phone: {
+    type: String,
+    unique: true,
+    sparse: true, // optional but unique if provided
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 6,
+    select: false, // don’t return by default
+  },
 }, { timestamps: true });
 
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
+// 🔑 Hash password before save
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
-userSchema.methods.compare = function (pw) { return bcrypt.compare(pw, this.password); };
 
-module.exports = mongoose.model('User', userSchema);
+// 🔑 Compare password method
+userSchema.methods.compare = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+module.exports = mongoose.model("User", userSchema);
